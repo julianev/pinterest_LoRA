@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import time
 import requests
 import os
+import re
 
 def scroll_down(driver, scroll_pause_time=5, scroll_count=30):
     body = driver.find_element(By.TAG_NAME, "body")
@@ -35,11 +36,16 @@ print("len", len(pins))
 for idx, pin_div in enumerate(pins):
     img = pin_div.find("img", {"src": True})
     img_url = img["src"]
-    img_data = requests.get(img_url).content
+    match = re.search(r'(https:\/\/i\.pinimg\.com\/\d{3}x\/)(.*)', img_url)
+    if match:
+        extracted_part = match.group(2) 
+    img_download_url = os.path.join('https://i.pinimg.com/736x/',extracted_part)
+    #print(img_download_url)
+    img_data = requests.get(img_download_url).content
     file_path = os.path.join(dir_name, f"img_{idx}.jpg")
     with open(file_path, "wb") as handler:
         handler.write(img_data)
     title = img["alt"]
     print(title)
 
-#driver.quit()
+driver.quit()
