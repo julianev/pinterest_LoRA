@@ -31,8 +31,6 @@ body = driver.find_element(By.TAG_NAME, "body")
 for count in range(scroll_count):
     soup = BeautifulSoup(driver.page_source, "html.parser")
     pins = soup.find_all("div", {"data-test-id": "pin-visual-wrapper"})
-    #print("len", len(pins))
-
     for idx, pin_div in enumerate(pins):
         img = pin_div.find("img", {"src": True})
         img_url = img["src"]
@@ -53,12 +51,10 @@ for count in range(scroll_count):
             with open(file_path, "wb") as handler:
                 handler.write(img_data)
             
-            # get image caption
+            # append image caption to csv file
             img_caption = img["alt"]
-            #print(title)
             with open(metadata_file, mode='a', newline='') as file:
                 writer = csv.writer(file)
-                # Append a new row (replace with your actual data)
                 writer.writerow([file_name, img_caption])
     
     body.send_keys(Keys.PAGE_DOWN)
