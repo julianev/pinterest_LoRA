@@ -19,7 +19,7 @@ dir_name = "pinterest_images_" + search_query.replace(' ', '_')
 if not os.path.exists(dir_name):
     os.makedirs(dir_name)
 
-chromedriver_path = r'/home/jule/projects/LoRA/chromedriver'
+chromedriver_path = './chromedriver'
 service = Service(chromedriver_path)
 driver = webdriver.Chrome(service=service)
 url = f"https://www.pinterest.com/search/pins/?q={search_query}"
@@ -29,6 +29,8 @@ scroll_down(driver)
 
 soup = BeautifulSoup(driver.page_source, "html.parser")
 pins = soup.find_all("div", {"data-test-id": "pin-visual-wrapper"})
+
+print("len", len(pins))
 
 for idx, pin_div in enumerate(pins):
     img = pin_div.find("img", {"src": True})
