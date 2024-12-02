@@ -4,3 +4,9 @@ webdriver-manager
 Pillow 
 requests
 selenium
+
+git+https://github.com/huggingface/diffusers
+accelerate
+wandb
+-r https://raw.githubusercontent.com/huggingface/diffusers/main/examples/text_to_image/requirements.txt
+safetensors
